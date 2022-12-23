@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get('/user/list',UserController.list); //Con authenticate
 router.post('/user',UserController.create);
-// router.put('/user/:id',UserController.update); //Con authenticate
+router.put('/user/:id',UserController.update); //Con authenticate
 router.get('/profile',UserController.getProfile); //Con authenticate
 
 

@@ -18,12 +18,6 @@ class UserController {
         message: error.message,
       });
     }
-    // PaymentMethodService.findAll().then(reasons => {
-    //   let response = reasons.rows.map(p => { return p.renderForOptions() });
-    //   return res.status(200).json({success: true, response});
-    // }).catch((e) => {
-    //   return res.status(500).send({success: false, error_code: 'INTERNAL_SERVER_ERROR', message: e.message});
-    // });
   }
 
   static async getProfile(req, res) {
@@ -92,7 +86,6 @@ class UserController {
         });
       } else {
         return res.status(404).json({
-          //Chequear que este bien que sea 404
           sucess: false,
           message: response.message,
         });

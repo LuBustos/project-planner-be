@@ -28,23 +28,32 @@ db.sequelize = sequelize;
 //Call models
 db.user = require("./user.model")(sequelize, Sequelize);
 db.task = require("./task.model")(sequelize, Sequelize);
+const User_Task = require("./user_task.model")(sequelize, Sequelize);
 db.status_task = require("./status_tasks.model")(sequelize, Sequelize);
 
 //A.hasMany(B)  FK B PK A
 //A.belongsTo(B)  FK A PK B
 
 
-db.user.hasMany(db.task, {
-  as: "user_task",
-  foreignKey: "user_id",
-  targetKey: "id",
-});
+// db.user.hasMany(db.task, {
+//   as: "user_task",
+//   foreignKey: "user_id",
+//   targetKey: "id",
+// });
 
-db.task.hasMany(db.user, {
-  as: "task_for_users",
-  foreignKey: "task_id",
-  targetKey: "id",
-})
+// db.task.hasMany(db.user, {
+//   as: "task_for_users",
+//   foreignKey: "task_id",
+//   targetKey: "id",
+// })
+
+// const User_Task = sequelize.define('User_Task', {
+  
+// }, { timestamps: false });
+
+db.user.belongsToMany(db.task, { through: User_Task });
+
+db.task.belongsToMany(db.user, { through: User_Task });
 
 db.task.belongsTo(db.status_task, {
   as: 'status',

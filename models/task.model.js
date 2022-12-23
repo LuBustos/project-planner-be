@@ -8,10 +8,10 @@ module.exports = function (sequelize, DataTypes) {
         primaryKey: true,
         autoIncrement: true,
       },
-      user_id: {
-        type: DataTypes.INTEGER().UNSIGNED,
-        allowNull: true,
-      },
+      // user_id: {
+      //   type: DataTypes.INTEGER().UNSIGNED,
+      //   allowNull: true,
+      // },
       title: {
         type: DataTypes.STRING(20),
         allowNull: false,
@@ -39,9 +39,32 @@ module.exports = function (sequelize, DataTypes) {
     },
     {
       tableName: "task",
-      timestamps: false
+      timestamps: false,
     }
   );
+
+  Task.prototype.renderTaskList = function () {
+    return {
+      id: this.id,
+      title: this.title,
+    };
+  };
+
+  Task.prototype.renderOneTask = function () {
+    return {
+      id: this.id,
+      title: this.title,
+      image: this.image,
+      tags: this.tags,
+      users: this.users.map(user => {
+        return {
+          id: user.id,
+          username: user.username,
+          avatar: user.avatar
+        }
+      })
+    };
+  };
 
   return Task;
 };

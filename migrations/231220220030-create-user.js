@@ -9,10 +9,10 @@ module.exports = {
           primaryKey: true,
           type: Sequelize.INTEGER,
         },
-        task_id: {
-          type: Sequelize.INTEGER,
-          allowNull: true,
-        },
+        // task_id: {
+        //   type: Sequelize.INTEGER,
+        //   allowNull: true,
+        // },
         username: {
           type: Sequelize.STRING(50),
           allowNull: false,
