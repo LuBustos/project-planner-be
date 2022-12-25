@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon ./server/server.js | bunyan -o short",
     "migrate": "npx sequelize db:migrate",
-    "create-database": "npx sequelize db:create"
+    "create-database": "npx sequelize db:create",
+    "seed": "npx sequelize db:seed:undo:all && npx sequelize db:seed:all"
   },
   "repository": {
     "type": "git",

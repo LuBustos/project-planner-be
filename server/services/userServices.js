@@ -45,6 +45,7 @@ class UserService {
 
   static async createUser(user) {
     try {
+      console.log("HOLI",user)
       if (!user.password) {
         return { message: "password not provided", success: false };
       }
@@ -59,12 +60,12 @@ class UserService {
       //Find or create the user
       const [userFound, createdUser] = await User.findOrCreate({
         where: { username: user.username },
-        defaults: { ...user, password: passwordHashed },
+        defaults: { ...user, password: passwordHashed,active: true },
       });
 
       //There weren't a user with this username, so it was created
       if (createdUser) {
-        return { message: "The user has been created", success: false };
+        return { message: "The user has been created", success: true };
       }
 
       //We found an user

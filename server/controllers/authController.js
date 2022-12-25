@@ -7,6 +7,8 @@ class AuthController {
       const { username, password } = req.body;
       const response = await UserService.login(username, password);
       
+        console.log(response.message)
+
       if (response.success) {
         return res.status(200).json({
           success: true,

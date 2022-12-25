@@ -31,7 +31,7 @@ class UserController {
           data: response.data,
         });
       } else {
-        return res.status(404).json({
+        return res.status(400).json({
           sucess: false,
           message: response.message,
           data: response.data,
@@ -48,10 +48,11 @@ class UserController {
 
   static async create(req, res) {
     try {
+      console.log("HOLA",req.body)
       const { password } = req.body;
 
       if (password.length < 4) {
-        return res.status(500).json({ message: "password too short" });
+        return res.status(404).send("password too short");
       }
 
       const response = await UserService.createUser(req.body);
@@ -61,12 +62,10 @@ class UserController {
           message: response.message,
         });
       } else {
-        return res.status(404).json({
-          sucess: false,
-          message: response.message,
-        });
+        return res.status(404).send(response.message);
       }
     } catch (error) {
+      console.log(error)
       return res.status(500).send({
         success: false,
         error_code: "INTERNAL_SERVER_ERROR",
@@ -85,7 +84,7 @@ class UserController {
           message: response.message,
         });
       } else {
-        return res.status(404).json({
+        return res.status(400).json({
           sucess: false,
           message: response.message,
         });

@@ -7,7 +7,8 @@ const router = express.Router();
 
 router.get('/task/list', TaskController.list);
 router.post('/task', TaskController.createTask);
-// router.put('/task/:id', () => {});
+router.put('/update-task', TaskController.updateTask);
 router.get('/show-task', TaskController.getTaskById);
+router.put('/update-task-status', TaskController.updateTaskStatus)
 
 module.exports = router;

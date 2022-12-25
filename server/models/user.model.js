@@ -37,7 +37,8 @@ module.exports = function (sequelize, DataTypes) {
   User.prototype.renderUserList = function () {
     return {
       id: this.id,
-      username: this.username,
+      label: this.username,
+      value: this.id,
       avatar: this.avatar
     }
   }

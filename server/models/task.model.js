@@ -1,3 +1,10 @@
+const STATUS = {
+  STARTED: 1,
+  COMPLETED: 2,
+  REMOVED: 3,
+  EXPIRED: 4,
+};
+
 module.exports = function (sequelize, DataTypes) {
   const Task = sequelize.define(
     "task",
@@ -40,6 +47,11 @@ module.exports = function (sequelize, DataTypes) {
     {
       tableName: "task",
       timestamps: false,
+      hooks: {
+        beforeCreate: async function (instance, options) {
+          instance.status_id = STATUS.STARTED;
+        },
+      },
     }
   );
 
@@ -56,13 +68,8 @@ module.exports = function (sequelize, DataTypes) {
       title: this.title,
       image: this.image,
       tags: this.tags,
-      users: this.users.map(user => {
-        return {
-          id: user.id,
-          username: user.username,
-          avatar: user.avatar
-        }
-      })
+      description: this.description,
+      users: this.users.map((user) => user.id),
     };
   };
 

@@ -1,13 +1,18 @@
 const express = require("express");
-const router = require("./routes");
+const router = require("./server/routes");
 const app = express();
 const cors = require("cors");
 
 const dotenv = require("dotenv")
 dotenv.config()
 
+    
+const corsOptions = {
+  origin: "*"
+};
+
 //   const healthRoutes = require("./routes/healthRoutes");
-app.use(cors());
+app.use(cors(corsOptions));
 
 // middleware to read body, parse it and place results in req.body
 app.use(express.json());             // for application/json

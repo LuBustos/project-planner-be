@@ -8,10 +8,6 @@ module.exports = function (sequelize, DataTypes) {
         primaryKey: true,
         autoIncrement: true,
       },
-      task_id: {
-        type: DataTypes.INTEGER().UNSIGNED,
-        allowNull: true,
-      },
       description: {
         type: DataTypes.STRING(100),
         allowNull: false,

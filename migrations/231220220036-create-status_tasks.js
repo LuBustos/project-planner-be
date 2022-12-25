@@ -9,10 +9,6 @@ module.exports = {
             primaryKey: true,
             type: Sequelize.INTEGER,
           },
-          task_id: {
-            type: Sequelize.INTEGER,
-            allowNull: true,
-          },
           description: {
             type: Sequelize.STRING(100),
             allowNull: false,
