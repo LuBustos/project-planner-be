@@ -22,7 +22,7 @@ module.exports = {
           allowNull: false,
         },
         image: {
-          type: Sequelize.STRING(100),
+          type: Sequelize.STRING(255),
           allowNull: true,
         },
         status_id: {
@@ -33,6 +33,10 @@ module.exports = {
           type: Sequelize.STRING(100),
           allowNull: true,
         },
+        created_by:{
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        }
       },
       {
         freezeTableName: true,

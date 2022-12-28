@@ -45,7 +45,7 @@ class UserService {
 
   static async createUser(user) {
     try {
-      console.log("HOLI",user)
+      console.log("HOLI", user);
       if (!user.password) {
         return { message: "password not provided", success: false };
       }
@@ -60,7 +60,7 @@ class UserService {
       //Find or create the user
       const [userFound, createdUser] = await User.findOrCreate({
         where: { username: user.username },
-        defaults: { ...user, password: passwordHashed,active: true },
+        defaults: { ...user, password: passwordHashed, active: true },
       });
 
       //There weren't a user with this username, so it was created
@@ -112,11 +112,16 @@ class UserService {
 
   static async updateUser(user, id) {
     try {
-      //Encriptar password
+      const data = {
+        avatar: user.uri,
+      };
 
-      const userUpdated = await User.update(user, {
-        id: id,
-      });
+      const userUpdated = await User.update(
+        { ...data },
+        {
+          where: { id: id },
+        }
+      );
 
       if (userUpdated) {
         return { message: "The user has been updated", success: true };

@@ -43,6 +43,10 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(100),
         allowNull: true,
       },
+      created_by:{
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      }
     },
     {
       tableName: "task",

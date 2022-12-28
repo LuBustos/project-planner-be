@@ -4,12 +4,13 @@ class TaskController {
   static async list(req, res) {
     try {
       const { id } = req.query;
-      const response = await TaskService.listTask(id);
+      const response = await TaskService.listTask(id,req.body);
       const tasks = response.data.map(t => {
         return t.renderTaskList();
       })
       return res.status(200).json({ success: true, data: tasks });
     } catch (error) {
+      console.log("ERROR",error)
       return res.status(500).send({
         success: false,
         error_code: "INTERNAL_SERVER_ERROR",

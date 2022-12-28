@@ -5,7 +5,7 @@ const router = express.Router();
 
 // const { authenticate } = require('../middleware/authenticate');
 
-router.get('/task/list', TaskController.list);
+router.post('/task/list', TaskController.list);
 router.post('/task', TaskController.createTask);
 router.put('/update-task', TaskController.updateTask);
 router.get('/show-task', TaskController.getTaskById);

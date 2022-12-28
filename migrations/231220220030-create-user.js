@@ -22,7 +22,7 @@ module.exports = {
           allowNull: false,
         },
         avatar: {
-          type: Sequelize.STRING(100),
+          type: Sequelize.STRING(255),
           allowNull: true,
         },
         active: {

@@ -1,11 +1,19 @@
 const { Op } = require("sequelize");
-const { task } = require("../models");
 const db = require("../models");
 const Task = db.task;
 const User = db.user;
 
-const REMOVED = 3;
-const COMPLETED = 2;
+const status_task = {
+  REMOVED: 3,
+  COMPLETED: 2
+}
+
+const filter_options = {
+  STATUS_COMPLETED: 1,
+  CREATED_BY: 2,
+  ASSIGNED: 3,
+  IMAGES: 4,
+};
 
 class TaskService {
   static async create(task) {
@@ -54,6 +62,7 @@ class TaskService {
 
   static async update(id, body) {
     try {
+      console.log(body)
       const { to, title } = body;
 
       if (title.length < 2 || title.length > 20) {
@@ -148,21 +157,64 @@ class TaskService {
     }
   }
 
-  static async listTask(id) {
+  static async listTask(userId, body) {
     try {
-      //Falta agregar el filtro para los tipos de tareas?
-      //Falta agregar el filtro para los estados
+      const { message, options } = body;
+      const taskFilters = [];
+      let statusFilters = [status_task.REMOVED, status_task.COMPLETED];
+      const otherTasks = [];
+
+      if (options.length > 0) {
+        //Filter tasks created by me
+        if (
+          options.includes(filter_options.CREATED_BY) &&
+          !options.includes(filter_options.ASSIGNED)
+        ) {
+          const taskCreatedBy = { created_by: userId };
+          taskFilters.push(taskCreatedBy);
+          //Filter tasks assign to me
+        } else if (
+          options.includes(filter_options.ASSIGNED) &&
+          !options.includes(filter_options.CREATED_BY)
+        ) {
+          const taskAssigns = { id: userId };
+          otherTasks.push(taskAssigns);
+        }
+
+        //Filter tasks with status completed
+        if (options.includes(filter_options.STATUS_COMPLETED)) {
+          statusFilters = statusFilters.filter((value) => value !== status_task.COMPLETED);
+          const status = { status_id: status_task.COMPLETED };
+          taskFilters.push(status);
+        }
+
+        //Filter tasks with images
+        if (options.includes(filter_options.IMAGES)) {
+          const image = { image: { [Op.not]: null } };
+          taskFilters.push(image);
+        }
+      }
+
+      if (message && message.length > 0) {
+        const task_text = {
+          title: { [Op.like]: `%${message}%` },
+        };
+        taskFilters.push(task_text);
+      }
+
       const tasks = await Task.findAll({
         include: [
           {
             model: User,
             where: {
-              id: id,
+              id: userId,
+              [Op.and]: otherTasks,
             },
           },
         ],
         where: {
-          status_id: { [Op.not]: REMOVED, [Op.not]: COMPLETED },
+          [Op.not]: [{ status_id: statusFilters }],
+          [Op.and]: taskFilters,
         },
       });
 

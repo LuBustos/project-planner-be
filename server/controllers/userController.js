@@ -76,8 +76,8 @@ class UserController {
 
   static async update(req, res) {
     try {
-      const { id } = req.params;
-      const response = await UserService.updateUser(req.body, id);
+      const { id } = req.query;
+      const response = await UserService.updateUser(req.body.form, id);
       if (response.success) {
         return res.status(200).json({
           success: true,
@@ -90,6 +90,7 @@ class UserController {
         });
       }
     } catch (error) {
+      console.log("error que paso?",error)
       return res.status(500).send({
         success: false,
         error_code: "INTERNAL_SERVER_ERROR",
