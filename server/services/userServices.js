@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const db = require("../models");
 const bcrypt = require("bcryptjs");
 const User = db.user;
@@ -6,7 +7,7 @@ class UserService {
   static async getAllUsers() {
     try {
       const users = User.findAll({
-        where: { active: true },
+        where: { active: true, username: {[Op.not]: 'guest'} },
       });
 
       return users;
@@ -45,7 +46,6 @@ class UserService {
 
   static async createUser(user) {
     try {
-      console.log("HOLI", user);
       if (!user.password) {
         return { message: "password not provided", success: false };
       }
@@ -65,7 +65,11 @@ class UserService {
 
       //There weren't a user with this username, so it was created
       if (createdUser) {
-        return { message: "The user has been created", success: true };
+        return {
+          message: "The user has been created",
+          success: true,
+          data: userFound.id,
+        };
       }
 
       //We found an user
@@ -92,6 +96,15 @@ class UserService {
         return { message: "User not found", success: false, token: "" };
       }
 
+      if (user.username === "guest") {
+        return {
+          message: "User logged in as guest",
+          success: true,
+          token: "",
+          id: null,
+        };
+      }
+
       //check passwords
       const isEqual = await this.comparePassword(password, user.password);
 
@@ -111,6 +124,68 @@ class UserService {
   }
 
   static async updateUser(user, id) {
+    try {
+      const { username, password } = user;
+
+      if (username.length === 0 || password.length === 0) {
+        return {
+          message: "Username or password empty",
+          success: false,
+        };
+      }
+
+      if (password.length < 4) {
+        return {
+          message: "password too short",
+          success: false,
+        };
+      }
+
+      const userFound = await User.findOne({
+        where: { id: id },
+      });
+
+      if (!userFound) {
+        return {
+          message: "Ops! that's embarrasing, you don't have an id D:, that's weird",
+          success: false,
+        };
+      }
+
+      const data = {
+        username: username,
+        password: password,
+      };
+
+      const isEqual = this.comparePassword(data.password,userFound.password);
+
+      if(isEqual){
+        delete data.password;
+      }else{
+        data.password = this.hashPassword(data.password);
+      }
+
+      const userUpdated = await User.update(
+        { ...data },
+        {
+          where: { id: id },
+        }
+      );
+
+      if (userUpdated) {
+        return { message: "The user has been updated", success: true };
+      }
+
+      return {
+        message: "Ops! that's embarrasing, there is a bug :p",
+        success: false,
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async updateAvatar(user, id) {
     try {
       const data = {
         avatar: user.uri,

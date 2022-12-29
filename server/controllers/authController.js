@@ -1,20 +1,26 @@
 const UserService = require("../services/userServices");
 
 class AuthController {
-  
   static async login(req, res) {
     try {
       const { username, password } = req.body;
+
+      if (username.length === 0 || password.length === 0) {
+        return res.status(404).json({
+          sucess: false,
+          message: "Password or username empty",
+          token: "",
+        });
+      }
+
       const response = await UserService.login(username, password);
-      
-        console.log(response.message)
 
       if (response.success) {
         return res.status(200).json({
           success: true,
           message: response.message,
           token: response.token,
-          id: response.id
+          id: response.id,
         });
       } else {
         return res.status(404).json({
@@ -31,7 +37,6 @@ class AuthController {
       });
     }
   }
-
 }
 
 module.exports = AuthController;

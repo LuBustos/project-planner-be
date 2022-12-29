@@ -10,7 +10,6 @@ class TaskController {
       })
       return res.status(200).json({ success: true, data: tasks });
     } catch (error) {
-      console.log("ERROR",error)
       return res.status(500).send({
         success: false,
         error_code: "INTERNAL_SERVER_ERROR",
@@ -57,7 +56,6 @@ class TaskController {
       const response = await TaskService.update(id,req.body);
       return res.status(200).json({ success: response.success, message: response.message });
     } catch (error) {
-      console.log("ERROR",error)
       return res.status(500).send({
         success: false,
         error_code: "INTERNAL_SERVER_ERROR",

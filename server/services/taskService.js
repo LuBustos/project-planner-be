@@ -62,7 +62,6 @@ class TaskService {
 
   static async update(id, body) {
     try {
-      console.log(body)
       const { to, title } = body;
 
       if (title.length < 2 || title.length > 20) {
@@ -152,7 +151,6 @@ class TaskService {
         message: "Ops!",
       };
     } catch (error) {
-      console.log(error);
       throw error;
     }
   }
@@ -164,7 +162,7 @@ class TaskService {
       let statusFilters = [status_task.REMOVED, status_task.COMPLETED];
       const otherTasks = [];
 
-      if (options.length > 0) {
+      if (options?.length > 0) {
         //Filter tasks created by me
         if (
           options.includes(filter_options.CREATED_BY) &&
@@ -242,7 +240,6 @@ class TaskService {
 
       return { success: false, message: "Ops" };
     } catch (error) {
-      console.log(error);
       throw error;
     }
   }

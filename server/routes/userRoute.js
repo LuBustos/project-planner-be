@@ -8,7 +8,8 @@ const router = express.Router();
 
 router.get('/user/list',UserController.list); //Con authenticate
 router.post('/user',UserController.create);
-router.put('/update-user',UserController.update); //Con authenticate
+router.put('/update-avatar',UserController.updateAvatar); //Con authenticate
+router.put('/update-user',UserController.updateUser); //Con authenticate
 router.get('/profile',UserController.getProfile); //Con authenticate
 
 

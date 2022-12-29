@@ -4,9 +4,9 @@ class UserController {
   static async list(req, res) {
     try {
       const response = await UserService.getAllUsers();
-      const users = response.map(u => {
+      const users = response.map((u) => {
         return u.renderUserList();
-      })
+      });
       return res.status(200).json({
         success: true,
         data: users,
@@ -31,7 +31,7 @@ class UserController {
           data: response.data,
         });
       } else {
-        return res.status(400).json({
+        return res.status(404).json({
           sucess: false,
           message: response.message,
           data: response.data,
@@ -48,11 +48,12 @@ class UserController {
 
   static async create(req, res) {
     try {
-      console.log("HOLA",req.body)
       const { password } = req.body;
 
       if (password.length < 4) {
-        return res.status(404).send("password too short");
+        return res
+          .status(404)
+          .send({ message: "password too short", success: false });
       }
 
       const response = await UserService.createUser(req.body);
@@ -60,12 +61,14 @@ class UserController {
         return res.status(200).json({
           success: true,
           message: response.message,
+          data: response.data,
         });
       } else {
-        return res.status(404).send(response.message);
+        return res
+          .status(404)
+          .send({ message: response.message, success: false });
       }
     } catch (error) {
-      console.log(error)
       return res.status(500).send({
         success: false,
         error_code: "INTERNAL_SERVER_ERROR",
@@ -74,23 +77,46 @@ class UserController {
     }
   }
 
-  static async update(req, res) {
+  static async updateAvatar(req, res) {
     try {
       const { id } = req.query;
-      const response = await UserService.updateUser(req.body.form, id);
+      const response = await UserService.updateAvatar(req.body.form, id);
       if (response.success) {
         return res.status(200).json({
           success: true,
           message: response.message,
         });
       } else {
-        return res.status(400).json({
+        return res.status(404).json({
           sucess: false,
           message: response.message,
         });
       }
     } catch (error) {
-      console.log("error que paso?",error)
+      return res.status(500).send({
+        success: false,
+        error_code: "INTERNAL_SERVER_ERROR",
+        message: error.message,
+      });
+    }
+  }
+
+  static async updateUser(req, res) {
+    try {
+      const { id } = req.query;
+      const response = await UserService.updateUser(req.body, id);
+      if (response.success) {
+        return res.status(200).json({
+          success: true,
+          message: response.message,
+        });
+      } else {
+        return res.status(404).json({
+          sucess: false,
+          message: response.message,
+        });
+      }
+    } catch (error) {
       return res.status(500).send({
         success: false,
         error_code: "INTERNAL_SERVER_ERROR",
