@@ -142,7 +142,7 @@ class TaskService {
       if (task_updated) {
         return {
           success: true,
-          message: "The task has been created",
+          message: "The task has been updated",
         };
       }
 
@@ -160,7 +160,6 @@ class TaskService {
       const { message, options } = body;
       const taskFilters = [];
       let statusFilters = [status_task.REMOVED, status_task.COMPLETED];
-      const otherTasks = [];
 
       if (options?.length > 0) {
         //Filter tasks created by me
@@ -175,8 +174,8 @@ class TaskService {
           options.includes(filter_options.ASSIGNED) &&
           !options.includes(filter_options.CREATED_BY)
         ) {
-          const taskAssigns = { id: userId };
-          otherTasks.push(taskAssigns);
+          const taskNotCreatedByMe = { created_by: {[Op.not]:userId} };
+          taskFilters.push(taskNotCreatedByMe);
         }
 
         //Filter tasks with status completed
@@ -205,8 +204,7 @@ class TaskService {
           {
             model: User,
             where: {
-              id: userId,
-              [Op.and]: otherTasks,
+              id: userId
             },
           },
         ],

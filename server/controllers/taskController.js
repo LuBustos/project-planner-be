@@ -22,9 +22,9 @@ class TaskController {
     try {
       const response = await TaskService.create(req.body);
       if(response.success){
-        return res.status(200).json({ success: true, response });
+        return res.status(200).json({ success: true, message: response.message });
       }else{
-        return res.status(404).json({ success: true, message: response.message });
+        return res.status(404).json({ success: false, message: response.message });
       }
     } catch (error) {
       return res.status(500).send({
