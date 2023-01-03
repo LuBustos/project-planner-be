@@ -54,7 +54,7 @@ class UserService {
         return { message: "username not provided", success: false };
       }
 
-      //Encriptar password
+      //Hash password
       const passwordHashed = await this.hashPassword(user.password);
 
       //Find or create the user

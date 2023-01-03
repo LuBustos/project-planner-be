@@ -10,16 +10,14 @@ class TaskController {
         return t.renderTaskList();
       });
 
-      const overdateTask = tasks.filter((task) => task.overdate === true);
-
-      console.log("holi",overdateTask.length)
+      const overdueTask = tasks.filter((task) => task.overdue === true);
 
       return res
         .status(200)
         .json({
           success: true,
           data: tasks,
-          overdateTasks: overdateTask.length,
+          overdueTask: overdueTask.length,
         });
     } catch (error) {
       return res.status(500).send({

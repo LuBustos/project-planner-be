@@ -18,7 +18,7 @@ const filter_options = {
 class TaskService {
   static async create(task) {
     try {
-      const { to, title } = task; //Una tarea donde se seleccionaron los usuarios + owner
+      const { to, title } = task;
 
       if (title.length < 2 || title.length > 20) {
         return {

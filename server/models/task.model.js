@@ -60,29 +60,25 @@ module.exports = function (sequelize, DataTypes) {
   Task.prototype.renderTaskList = function () {
     const dueDate = moment(this.dueDate);
     const today = moment();
-    let overdate = false;
+    let overdue = false;
     if (today > dueDate) {
-      overdate = true;
+      overdue = true;
     }
 
     return {
       id: this.id,
       title: this.title,
-      overdate: overdate,
+      overdue: overdue,
     };
   };
 
   Task.prototype.renderOneTask = function () {
     //Try to refactor?
     let formatDate = null;
+
     if (this.dueDate != null) {
-      const date = this.dueDate;
-      formatDate =
-        date.getDate() +
-        "-" +
-        parseInt(date.getMonth() + 1) +
-        "-" +
-        date.getFullYear();
+      const date = moment(this.dueDate).calendar('');
+      formatDate = date;
     }
 
     return {
