@@ -9,10 +9,6 @@ module.exports = {
           primaryKey: true,
           type: Sequelize.INTEGER,
         },
-        // user_id: {
-        //   allowNull: true,
-        //   type: Sequelize.INTEGER,
-        // },
         title: {
           type: Sequelize.STRING(20),
           allowNull: false,
@@ -36,6 +32,10 @@ module.exports = {
         created_by:{
           type: Sequelize.INTEGER,
           allowNull: false,
+        },
+        dueDate: {
+          type: Sequelize.DATE,
+          allowNull: true,
         }
       },
       {

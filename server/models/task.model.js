@@ -1,3 +1,5 @@
+const moment = require("moment");
+
 const STATUS = {
   STARTED: 1,
   COMPLETED: 2,
@@ -15,10 +17,6 @@ module.exports = function (sequelize, DataTypes) {
         primaryKey: true,
         autoIncrement: true,
       },
-      // user_id: {
-      //   type: DataTypes.INTEGER().UNSIGNED,
-      //   allowNull: true,
-      // },
       title: {
         type: DataTypes.STRING(20),
         allowNull: false,
@@ -35,18 +33,18 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER().UNSIGNED,
         allowNull: true,
       },
-      //   tags_id: { //no es una clase por ahora.. sino datos randoms que podes agregar vos?
-      //     type: DataTypes.INTEGER().UNSIGNED,
-      //     allowNull: true,
-      //   },
       tags: {
         type: DataTypes.STRING(100),
         allowNull: true,
       },
-      created_by:{
+      created_by: {
         type: DataTypes.INTEGER,
         allowNull: false,
-      }
+      },
+      dueDate: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
     },
     {
       tableName: "task",
@@ -60,13 +58,33 @@ module.exports = function (sequelize, DataTypes) {
   );
 
   Task.prototype.renderTaskList = function () {
+    const dueDate = moment(this.dueDate);
+    const today = moment();
+    let overdate = false;
+    if (today > dueDate) {
+      overdate = true;
+    }
+
     return {
       id: this.id,
       title: this.title,
+      overdate: overdate,
     };
   };
 
   Task.prototype.renderOneTask = function () {
+    //Try to refactor?
+    let formatDate = null;
+    if (this.dueDate != null) {
+      const date = this.dueDate;
+      formatDate =
+        date.getDate() +
+        "-" +
+        parseInt(date.getMonth() + 1) +
+        "-" +
+        date.getFullYear();
+    }
+
     return {
       id: this.id,
       title: this.title,
@@ -74,6 +92,7 @@ module.exports = function (sequelize, DataTypes) {
       tags: this.tags,
       description: this.description,
       users: this.users.map((user) => user.id),
+      dueDate: formatDate,
     };
   };
 

@@ -30,3 +30,6 @@ CREATE TABLE `status_tasks` (
   `active` int unsigned NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `task` 
+ADD COLUMN `dueDate` DATETIME NULL AFTER `created_by`;

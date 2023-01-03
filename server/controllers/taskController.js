@@ -1,14 +1,26 @@
 const TaskService = require("../services/taskService");
+const moment = require("moment");
 
 class TaskController {
   static async list(req, res) {
     try {
       const { id } = req.query;
-      const response = await TaskService.listTask(id,req.body);
-      const tasks = response.data.map(t => {
+      const response = await TaskService.listTask(id, req.body);
+      const tasks = response.data.map((t) => {
         return t.renderTaskList();
-      })
-      return res.status(200).json({ success: true, data: tasks });
+      });
+
+      const overdateTask = tasks.filter((task) => task.overdate === true);
+
+      console.log("holi",overdateTask.length)
+
+      return res
+        .status(200)
+        .json({
+          success: true,
+          data: tasks,
+          overdateTasks: overdateTask.length,
+        });
     } catch (error) {
       return res.status(500).send({
         success: false,
@@ -21,10 +33,14 @@ class TaskController {
   static async createTask(req, res) {
     try {
       const response = await TaskService.create(req.body);
-      if(response.success){
-        return res.status(200).json({ success: true, message: response.message });
-      }else{
-        return res.status(404).json({ success: false, message: response.message });
+      if (response.success) {
+        return res
+          .status(200)
+          .json({ success: true, message: response.message });
+      } else {
+        return res
+          .status(404)
+          .json({ success: false, message: response.message });
       }
     } catch (error) {
       return res.status(500).send({
@@ -52,9 +68,11 @@ class TaskController {
 
   static async updateTask(req, res) {
     try {
-      const {id} = req.query
-      const response = await TaskService.update(id,req.body);
-      return res.status(200).json({ success: response.success, message: response.message });
+      const { id } = req.query;
+      const response = await TaskService.update(id, req.body);
+      return res
+        .status(200)
+        .json({ success: response.success, message: response.message });
     } catch (error) {
       return res.status(500).send({
         success: false,
@@ -66,9 +84,11 @@ class TaskController {
 
   static async updateTaskStatus(req, res) {
     try {
-      const { id,status } = req.body;
-      const response = await TaskService.changeTaskStatusById(id,status);
-      return res.status(200).json({ success: response.success, message: response.message });
+      const { id, status } = req.body;
+      const response = await TaskService.changeTaskStatusById(id, status);
+      return res
+        .status(200)
+        .json({ success: response.success, message: response.message });
     } catch (error) {
       return res.status(500).send({
         success: false,
