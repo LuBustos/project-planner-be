@@ -33,7 +33,7 @@ You have to run some scripts to create the database.
 ```
 
 
-Then npm or yarn start and you should see the next message:
+Then run `npm start / yarn start` and you should see the next message:
 
 ```
 Project planner api listening at ${PORT}
@@ -41,12 +41,12 @@ Project planner api listening at ${PORT}
 
 # SQL
 
-If you want to create the schema and tables with SQL, I left a file with some querys that you have to use.
+If you want to create the schema and tables with SQL, I added a file with some queries that you can use.
 
 `Go to sql/alter-tables.sql`
 
 # Postman
 
-If you want to test the API's using postman, I left a collection.json that you have to import it.
+If you want to test the APIs using postman, I added a collection.json that you can import.
 
 `Go to postman/Project planner - API.postman_collection.json`
