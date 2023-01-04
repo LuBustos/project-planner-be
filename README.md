@@ -1,12 +1,12 @@
 # project-planner-be
 
-# Technologies
+## Technologies
 Project-planner-be is created with:
 * express: 4.18.2
 * mysql2: 2.3.3
 * sequelize: 6.28.0
 
-# Setup
+## Setup
 To run this project, install it locally using npm or yarn:
 
 First of all you have to create a .env or rename the .env.example file, and complete the next fields 
@@ -18,7 +18,7 @@ DB_PASSWORD=
 ````
 with your information.
 
-# Step by Step
+## Step by Step
 You have to run some scripts to create the database.
 
 
@@ -39,13 +39,13 @@ Then run `npm start / yarn start` and you should see the next message:
 Project planner api listening at ${PORT}
 ```
 
-# SQL
+## SQL
 
 If you want to create the schema and tables with SQL, I added a file with some queries that you can use.
 
 `Go to sql/alter-tables.sql`
 
-# Postman
+## Postman
 
 If you want to test the APIs using postman, I added a collection.json that you can import.
 
