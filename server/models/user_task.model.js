@@ -5,10 +5,14 @@ module.exports = function (sequelize, DataTypes) {
       taskId: {
         type: DataTypes.INTEGER().UNSIGNED,
         allowNull: false,
+        primaryKey: true,
+        autoIncrement: false,
       },
       userId: {
         type: DataTypes.INTEGER().UNSIGNED,
         allowNull: false,
+        primaryKey: true,
+        autoIncrement: false,
       },
     }, //composite key
     {

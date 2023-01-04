@@ -11,7 +11,6 @@ const corsOptions = {
   origin: "*"
 };
 
-//   const healthRoutes = require("./routes/healthRoutes");
 app.use(cors(corsOptions));
 
 // middleware to read body, parse it and place results in req.body
@@ -24,6 +23,5 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api", router);
-// app.use("/", healthRoutes);
 
 module.exports = app;

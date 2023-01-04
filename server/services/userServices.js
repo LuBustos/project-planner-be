@@ -134,6 +134,7 @@ class UserService {
         };
       }
 
+      
       if (password.length < 4) {
         return {
           message: "password too short",
@@ -157,12 +158,12 @@ class UserService {
         password: password,
       };
 
-      const isEqual = this.comparePassword(data.password,userFound.password);
+      const isEqual = await this.comparePassword(data.password,userFound.password);
 
       if(isEqual){
         delete data.password;
       }else{
-        data.password = this.hashPassword(data.password);
+        data.password = await this.hashPassword(data.password);
       }
 
       const userUpdated = await User.update(

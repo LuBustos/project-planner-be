@@ -9,16 +9,12 @@ module.exports = {
           primaryKey: true,
           type: Sequelize.INTEGER,
         },
-        // task_id: {
-        //   type: Sequelize.INTEGER,
-        //   allowNull: true,
-        // },
         username: {
           type: Sequelize.STRING(50),
           allowNull: false,
         },
         password: {
-          type: Sequelize.STRING(100),
+          type: Sequelize.STRING(150),
           allowNull: false,
         },
         avatar: {

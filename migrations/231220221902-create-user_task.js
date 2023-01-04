@@ -6,10 +6,14 @@ module.exports = {
         taskId: {
           allowNull: false,
           type: Sequelize.INTEGER,
+          primaryKey: true,
+          autoIncrement: false,
         },
         userId: {
           allowNull: false,
           type: Sequelize.INTEGER,
+          primaryKey: true,
+          autoIncrement: false,
         },
       },
       {

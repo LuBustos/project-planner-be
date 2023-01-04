@@ -8,16 +8,12 @@ module.exports = function (sequelize, DataTypes) {
         primaryKey: true,
         autoIncrement: true,
       },
-      // task_id: {
-      //   type: DataTypes.INTEGER().UNSIGNED,
-      //   allowNull: true,
-      // },
       username: {
         type: DataTypes.STRING(50),
         allowNull: false,
       },
       password: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING(150),
         allowNull: false,
       },
       avatar: {

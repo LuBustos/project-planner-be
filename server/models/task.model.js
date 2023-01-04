@@ -73,7 +73,6 @@ module.exports = function (sequelize, DataTypes) {
   };
 
   Task.prototype.renderOneTask = function () {
-    //Try to refactor?
     let formatDate = null;
 
     if (this.dueDate != null) {
