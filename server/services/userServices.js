@@ -7,7 +7,7 @@ class UserService {
   static async getAllUsers() {
     try {
       const users = User.findAll({
-        where: { active: true, username: {[Op.not]: 'guest'} },
+        where: { active: true, username: { [Op.not]: "guest" } },
       });
 
       return users;
@@ -30,7 +30,15 @@ class UserService {
         };
       }
 
-      return { message: "Found it", success: true, data: user };
+      return {
+        message: "Found it",
+        success: true,
+        data: {
+          id: user.id,
+          username: user.username,
+          avatar: user.avatar
+        },
+      };
     } catch (error) {
       throw error;
     }
@@ -125,17 +133,16 @@ class UserService {
 
   static async updateUser(user, id) {
     try {
-      const { username, password } = user;
+      const { username, password, updatePassword } = user;
 
-      if (username.length === 0 || password.length === 0) {
+      if (username.length === 0) {
         return {
-          message: "Username or password empty",
+          message: "Username empty",
           success: false,
         };
       }
 
-      
-      if (password.length < 4) {
+      if (updatePassword && password.length < 4) {
         return {
           message: "password too short",
           success: false,
@@ -148,22 +155,18 @@ class UserService {
 
       if (!userFound) {
         return {
-          message: "Ops! that's embarrasing, you don't have an id D:, that's weird",
+          message:
+            "Ops! that's embarrasing, you don't have an id D:, that's weird",
           success: false,
         };
       }
 
       const data = {
         username: username,
-        password: password,
       };
 
-      const isEqual = await this.comparePassword(data.password,userFound.password);
-
-      if(isEqual){
-        delete data.password;
-      }else{
-        data.password = await this.hashPassword(data.password);
+      if (updatePassword) {
+        data.password = await this.hashPassword(password);
       }
 
       const userUpdated = await User.update(

@@ -62,13 +62,16 @@ module.exports = function (sequelize, DataTypes) {
     const today = moment();
     let overdue = false;
     if (today > dueDate) {
-      overdue = true;
+      if(this.status_id !== STATUS.COMPLETED && this.status_id !== STATUS.REMOVED){
+        overdue = true;
+      }
     }
 
     return {
       id: this.id,
       title: this.title,
       overdue: overdue,
+      status_id: this.status_id
     };
   };
 
@@ -76,7 +79,7 @@ module.exports = function (sequelize, DataTypes) {
     let formatDate = null;
 
     if (this.dueDate != null) {
-      const date = moment(this.dueDate).calendar('');
+      const date = moment(this.dueDate).toDate();
       formatDate = date;
     }
 
